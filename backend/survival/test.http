@@ -1,0 +1,115 @@
+@host = http://127.0.0.1:8080
+@username = demoUser
+@password = 123456
+@monsterId = 1
+@itemCode = POTION
+@token = {{login.response.body.$.token}}
+
+### 1. 系統健康檢查
+GET {{host}}/
+
+### 2. Hello
+GET {{host}}/hello
+
+### 3. 註冊帳號
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+### 4. 登入並儲存 JWT
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+### 5. 查詢關卡列表
+GET {{host}}/api/stage/list
+
+### 6. 查詢單一關卡
+GET {{host}}/api/stage/1
+
+### 7. 查詢第 1 關怪物
+GET {{host}}/api/monster/stage/1
+
+### 8. 查詢商店清單
+GET {{host}}/api/shop/items
+
+### 9. 查詢玩家資料
+GET {{host}}/api/player/me
+Authorization: Bearer {{token}}
+
+### 10. 查詢目前武器
+GET {{host}}/api/weapon/me
+Authorization: Bearer {{token}}
+
+### 11. 一般攻擊
+POST {{host}}/api/battle/attack
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "monsterId": {{monsterId}},
+  "useSkill": false
+}
+
+### 12. 技能攻擊
+POST {{host}}/api/battle/attack
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "monsterId": {{monsterId}},
+  "useSkill": true
+}
+
+### 13. 升級武器
+POST {{host}}/api/weapon/upgrade
+Authorization: Bearer {{token}}
+
+### 14. 玩家補血
+POST {{host}}/api/player/heal
+Authorization: Bearer {{token}}
+
+### 15. 購買藥水
+POST {{host}}/api/player/buy-potion
+Authorization: Bearer {{token}}
+
+### 16. 使用藥水
+POST {{host}}/api/player/use-potion
+Authorization: Bearer {{token}}
+
+### 17. 升級技能
+POST {{host}}/api/player/upgrade-skill
+Authorization: Bearer {{token}}
+
+### 18. 前往下一關
+POST {{host}}/api/player/advance-stage
+Authorization: Bearer {{token}}
+
+### 19. 讀取進度
+GET {{host}}/api/progress
+Authorization: Bearer {{token}}
+
+### 20. 儲存進度
+POST {{host}}/api/progress/save
+Authorization: Bearer {{token}}
+
+### 21. 商店購買道具
+POST {{host}}/api/shop/buy?itemCode={{itemCode}}
+Authorization: Bearer {{token}}
+
+### 22. 登出
+POST {{host}}/api/auth/logout
+Authorization: Bearer {{token}}
+
+### 23. 重置本局遊戲
+POST {{host}}/api/player/end-game
+Authorization: Bearer {{token}}
