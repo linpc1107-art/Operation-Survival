@@ -6,15 +6,14 @@ let selectedMonster = null;
 let stageMetaList = [];
 
 function resolveApiUrl(path) {
-  if (!path) {
-    return '/api';
-  }
-
-  if (path.startsWith('/')) {
-    return path;
-  }
-
-  return '/api/' + path.replace(/^\/+/, '');
+    const backendUrl = 'https://operation-survival.onrender.com';
+    if (!path) {
+        return backendUrl;
+    }
+    if (path.startsWith('http')) {
+        return path;
+    }
+    return backendUrl + (path.startsWith('/') ? path : '/' + path);
 }
 
 function setMessage(message, type = 'info') {
